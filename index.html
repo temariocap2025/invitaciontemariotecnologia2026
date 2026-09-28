@@ -11,19 +11,20 @@
 :root{--menta:#D9F0EA;--tinta:#0D3B3E;--pantalla:#0E1B2B;--cian:#5EE3E8;--coral:#FF6F59;--blanco:#F7F8F6;--sombra:#DCE3E1;
 --titulo:'Fredoka','Trebuchet MS',sans-serif;--texto:'Atkinson Hyperlegible','Segoe UI',Arial,sans-serif}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{font-family:var(--texto);color:var(--tinta);background:var(--menta);line-height:1.55;font-size:1.125rem}
+html,body{margin:0;max-width:100%;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--texto);color:var(--tinta);background:var(--menta);line-height:1.55;font-size:1.125rem;overflow-wrap:break-word}
 h1,h2,h3{font-family:var(--titulo);line-height:1.1;margin:0}
 :focus-visible{outline:4px solid var(--coral);outline-offset:3px}
 
 /* ---------- Escenario ---------- */
-.hero{min-height:100svh;display:grid;grid-template-rows:auto 1fr;justify-items:center;padding:clamp(20px,4vw,48px) 16px 0;text-align:center;overflow:hidden;
+.hero{min-height:100vh;min-height:100svh;display:grid;grid-template-rows:auto 1fr;justify-items:center;padding:clamp(20px,4vw,48px) 16px 0;text-align:center;overflow:hidden;
 background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radial-gradient(circle at 50% 62%,#C6E8E0 0 34%,transparent 34.2%),var(--menta)}
-.hero h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:700}
+.hero h1{font-size:clamp(1.9rem,6vw,4rem);font-weight:700}
 .hero p{margin:.6rem auto 0;max-width:34ch}
-.escena{width:min(440px,86vw);align-self:end;position:relative}
+.escena{width:min(440px,86vw,58svh);align-self:end;position:relative}
 .escena svg{display:block;width:100%;height:auto;overflow:visible}
-.bajar{position:absolute;bottom:14px;right:18px;color:var(--tinta);font-weight:700;text-decoration:none;background:#fff;padding:.5rem .9rem;border-radius:99px}
+.bajar{position:absolute;bottom:14px;right:18px;color:var(--tinta);font-weight:700;text-decoration:none;background:#fff;padding:.5rem .9rem;border-radius:99px;z-index:2}
 
 /* ---------- POCHI ---------- */
 .robot{animation:flota 3.2s ease-in-out infinite alternate}
@@ -40,22 +41,16 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
 .capsula{transform-box:fill-box;transform-origin:center;opacity:0}
 .anillo{transform-box:fill-box;transform-origin:center;animation:pulso 1.8s ease-out infinite}
 @keyframes pulso{from{transform:scale(.7);opacity:.9}to{transform:scale(1.9);opacity:0}}
-.boton{cursor:pointer}
+.boton{cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 /* ---------- Indicador de la Bandeja ---------- */
-.aviso-bandeja {
-  animation: reboteAviso 1.5s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-@keyframes reboteAviso {
-  from { transform: translateY(0); }
-  to { transform: translateY(-6px); }
-}
+.aviso-bandeja{animation:reboteAviso 1.5s ease-in-out infinite alternate;transform-origin:center}
+@keyframes reboteAviso{from{transform:translateY(0)}to{transform:translateY(-6px)}}
 
 .activo .ojos{opacity:0}
 .activo .msg{opacity:1}
 .activo .anillo{display:none}
-.activo .aviso-bandeja{display:none} /* Se oculta al abrir para no estorbar */
+.activo .aviso-bandeja{display:none}
 .activo .cajon{transform:translateY(9px)}
 .activo .brazo-d{animation:none;transform:rotate(-38deg);transition:transform .5s}
 .activo .brazo-i{animation:none;transform:rotate(38deg);transition:transform .5s}
@@ -65,7 +60,7 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
 /* ---------- Invitación desplegable ---------- */
 .ov{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:14px;background:rgba(13,59,62,.82);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .ov.abierto{opacity:1;visibility:visible}
-.tarjeta{position:relative;width:min(720px,100%);max-height:94svh;overflow:auto;border-radius:22px;perspective:1100px;background:#fff;box-shadow:0 0 0 6px #fff;text-align:center}
+.tarjeta{position:relative;width:min(720px,100%);max-height:94vh;max-height:94svh;overflow:auto;overflow-x:hidden;border-radius:22px;perspective:1100px;background:#fff;box-shadow:0 0 0 6px #fff;text-align:center}
 .x{position:sticky;top:8px;float:right;margin:8px 8px -54px 0;z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:var(--coral);color:#fff;font:700 1.8rem/1 var(--titulo);cursor:pointer}
 .pn{position:relative;padding:22px 26px;transform-origin:top center;backface-visibility:hidden;opacity:0;transform:rotateX(-100deg)}
 .pn::after{content:"";position:absolute;inset:0;background:linear-gradient(#0D3B3E,transparent);opacity:0;pointer-events:none}
@@ -76,15 +71,27 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
 @keyframes desdobla{0%{opacity:1;transform:rotateX(-100deg)}100%{opacity:1;transform:none}}
 @keyframes sombra{0%{opacity:.55}100%{opacity:0}}
 .p1{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--tinta);color:var(--menta);padding-right:64px;text-align:left}
-.p1 h2{font-size:clamp(1.9rem,6vw,2.8rem);color:#fff}
+.p1 h2{font-size:clamp(1.7rem,6vw,2.8rem);color:#fff}
 .p1 p{margin:.2rem 0 0;font-size:1.1rem}
-.logo{width:clamp(64px,16vw,92px);height:clamp(64px,16vw,92px);object-fit:contain;background:#fff;border-radius:14px;padding:6px;flex:none}
+.logo{width:clamp(56px,16vw,92px);height:clamp(56px,16vw,92px);object-fit:contain;background:#fff;border-radius:14px;padding:6px;flex:none}
 .p2{background:#fff}.p2 p{margin:0;font-size:1.2rem}
 .p3{background:var(--menta)}
-.p3 h3{font-size:clamp(1.15rem,3.4vw,1.55rem);font-weight:600;line-height:1.3}
-.p4{background:var(--pantalla);color:#fff;display:grid;gap:10px;justify-items:center;padding-bottom:26px}
-.p4 p{margin:0;display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:700;text-align:left}
-.p4 svg{width:26px;height:26px;flex:none;fill:none;stroke:var(--cian);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.p3 h3{font-size:clamp(1.05rem,3.4vw,1.55rem);font-weight:600;line-height:1.3}
+
+/* Datos del evento: icono + texto en dos columnas, siempre alineados */
+.p4{background:var(--pantalla);color:#fff;display:grid;gap:14px;justify-items:center;padding-bottom:26px}
+.p4 p{margin:0;width:100%;max-width:440px;display:grid;grid-template-columns:28px 1fr;align-items:start;column-gap:12px;font-size:1.15rem;font-weight:700;text-align:left;line-height:1.35}
+.p4 svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--cian);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.p4 span{min-width:0;padding-top:2px}
+@media (max-width:520px){
+  .pn{padding:18px 16px}
+  .p1{flex-direction:column;text-align:center;padding:60px 16px 20px;gap:12px}
+  .p1 p{font-size:1rem}
+  .p2 p{font-size:1.05rem}
+  .p4 p{font-size:1.05rem}
+  .bajar{right:50%;transform:translateX(50%);bottom:10px;font-size:.95rem;white-space:nowrap}
+  .x{margin:6px 6px -50px 0}
+}
 @media (prefers-reduced-motion:reduce){.pn{opacity:1;transform:none}}
 
 /* ---------- Movimiento extra ---------- */
@@ -95,7 +102,7 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
 .cruz{position:absolute;bottom:-60px;width:22px;height:22px;opacity:.5;animation:asciende linear infinite}
 .cruz::before,.cruz::after{content:"";position:absolute;background:var(--cian);border-radius:3px}
 .cruz::before{left:8px;top:0;width:6px;height:22px}.cruz::after{top:8px;left:0;width:22px;height:6px}
-@keyframes asciende{to{transform:translateY(-115svh) rotate(360deg)}}
+@keyframes asciende{to{transform:translateY(-115vh) translateY(-115svh) rotate(360deg)}}
 .entra{animation:llega 1.5s cubic-bezier(.2,.9,.3,1) both}
 @keyframes llega{0%{transform:translateX(-120vw) rotate(-14deg)}60%{transform:translateX(14px) rotate(4deg)}80%{transform:translateX(-6px) rotate(-2deg)}100%{transform:none}}
 .antena{animation:luz 1.2s steps(2,end) infinite}
@@ -108,11 +115,22 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
 .rev.ya{opacity:1;transform:none}
 
 /* ---------- Conoce a POCHI ---------- */
-.conoce{background:var(--tinta);color:var(--menta);padding:clamp(48px,9vw,100px) 22px}
-.conoce .in{max-width:760px;margin:0 auto}
-.conoce h2{font-size:clamp(2rem,5.5vw,3.2rem);color:#fff}
-.conoce .lead{max-width:60ch;margin:1rem 0 1.6rem;font-size:1.2rem}
-.cierre{font:600 clamp(1.6rem,4.6vw,2.4rem)/1.2 var(--titulo);color:var(--cian);margin:0}
+.conoce{background:var(--tinta);color:var(--menta);padding:clamp(48px,9vw,100px) clamp(16px,4vw,22px)}
+.conoce .in{max-width:900px;margin:0 auto}
+.conoce h2{font-size:clamp(1.9rem,5.5vw,3.2rem);color:#fff}
+.conoce h3{font-size:clamp(1.3rem,4vw,1.8rem);color:var(--cian);margin:0 0 1rem;font-weight:600}
+.conoce .lead{max-width:60ch;margin:1rem 0 2rem;font-size:1.2rem}
+.siglas{list-style:none;margin:0 0 2.2rem;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+.siglas li{display:grid;grid-template-columns:56px 1fr;column-gap:14px;align-items:start;background:rgba(217,240,234,.09);border:2px solid rgba(94,227,232,.35);border-radius:18px;padding:16px}
+.siglas .letra{width:56px;height:56px;border-radius:14px;background:var(--cian);color:var(--tinta);font:700 2rem/56px var(--titulo);text-align:center}
+.siglas h4{margin:0 0 .25rem;font:600 1.2rem/1.2 var(--titulo);color:#fff}
+.siglas p{margin:0;font-size:1.02rem;line-height:1.5}
+.siglas li:last-child{grid-column:1/-1}
+@media (max-width:520px){
+  .siglas li{grid-template-columns:44px 1fr;column-gap:12px;padding:14px}
+  .siglas .letra{width:44px;height:44px;font-size:1.6rem;line-height:44px;border-radius:12px}
+}
+.cierre{font:600 clamp(1.5rem,4.6vw,2.4rem)/1.2 var(--titulo);color:var(--cian);margin:0}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -159,8 +177,8 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
         <g class="cajon"><rect x="168" y="408" width="64" height="14" rx="6" fill="#4A5F73"/></g>
         <g class="capsula"><g transform="translate(200 402)"><rect x="-13" y="-7" width="26" height="14" rx="7" fill="#fff" stroke="#0D3B3E" stroke-width="2"/><path d="M0 -7H6A7 7 0 0 1 6 7H0Z" fill="#FF6F59"/><path d="M-6 -7H0V7H-6A7 7 0 0 1 -6 -7Z" fill="#fff"/><rect x="-13" y="-7" width="26" height="14" rx="7" fill="none" stroke="#0D3B3E" stroke-width="2"/></g></g>
         <circle class="anillo" cx="200" cy="417" r="34" fill="none" stroke="#FF6F59" stroke-width="5"/>
-        
-<!-- Indicador visual (Globo/Texto animado que indica que deben tocar la bandeja) -->
+
+        <!-- Indicador visual -->
         <g class="aviso-bandeja">
           <rect x="137" y="344" width="126" height="30" rx="8" fill="#FF6F59" filter="url(#brillo)"/>
           <polygon points="200,380 194,374 206,374" fill="#FF6F59"/>
@@ -188,9 +206,9 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
     <section class="pn p2"><p>Invita cordialmente a la presentación de tesis grupal:</p></section>
     <section class="pn p3"><h3>Sistema asistencial robótico autónomo con Inteligencia Artificial Integrada para la automatización, adherencia y gestión segura de tratamientos farmacológicos en pacientes vulnerables</h3></section>
     <section class="pn p4">
-      <p><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Viernes 9 de octubre</p>
-      <p><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>13:00 a 14:30 horas</p>
-      <p><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Colegio Capouilliez, Salón de Actos Primaria</p>
+      <p><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Viernes 9 de octubre</span></p>
+      <p><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>13:00 a 14:30 horas</span></p>
+      <p><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Colegio Capouilliez, Salón de Actos Primaria</span></p>
     </section>
   </div>
 </div>
@@ -200,6 +218,16 @@ background:radial-gradient(circle at 50% 62%,#fff 0 22%,transparent 22.2%),radia
   <div class="in">
     <h2 class="rev">Conoce a POCHI</h2>
     <p class="lead rev">POCHI es un asistente de salud con inteligencia artificial integrado con un sistema de base de datos para recordar los tiempos de medicamentos de las personas, un sistema de rastreo y tiene interacción con los usuarios.</p>
+
+    <h3 class="rev">¿Qué significa POCHI?</h3>
+    <ul class="siglas">
+      <li class="rev"><span class="letra" aria-hidden="true">P</span><div><h4>Patient (Paciente)</h4><p>El diseño físico y mecánico del robot está pensado en su totalidad alrededor de la persona, utilizando innovaciones como el dispensador horizontal para asegurar un uso cómodo, accesible y sin errores.</p></div></li>
+      <li class="rev"><span class="letra" aria-hidden="true">O</span><div><h4>Oriented (Orientado)</h4><p>El comportamiento del asistente y sus sistemas de alerta no son estáticos, sino que se adaptan y personalizan en función de los requerimientos y rutinas específicas de cada usuario.</p></div></li>
+      <li class="rev"><span class="letra" aria-hidden="true">C</span><div><h4>Care (Cuidado)</h4><p>La función práctica del robot, enfocada en proteger y asistir de manera continua al usuario para garantizar que los tratamientos y cuidados diarios se cumplan de forma segura.</p></div></li>
+      <li class="rev"><span class="letra" aria-hidden="true">H</span><div><h4>Health (Salud)</h4><p>El campo de acción principal de POCHI, orientado a salvaguardar el bienestar físico y mantener la estabilidad médica del usuario.</p></div></li>
+      <li class="rev"><span class="letra" aria-hidden="true">I</span><div><h4>Intelligence (Inteligencia)</h4><p>El núcleo de procesamiento y automatización que maneja la lógica de los circuitos, coordina el movimiento exacto del dispensador y gestiona las respuestas inteligentes del sistema.</p></div></li>
+    </ul>
+
     <p class="cierre rev">Te esperamos a nuestra presentación.</p>
   </div>
 </main>
@@ -212,7 +240,8 @@ let ocupado = false, origen = null;
 
 /* Fondo: cápsulas y cruces que suben */
 const fondo = document.getElementById('fondo');
-for (let n = 0; n < 16; n++) {
+const cantidad = innerWidth < 600 ? 10 : 16;
+for (let n = 0; n < cantidad; n++) {
   const e = document.createElement('span');
   e.className = n % 3 ? 'pil' : 'cruz';
   e.style.left = Math.random() * 96 + '%';
@@ -237,7 +266,7 @@ function confeti() {
 }
 
 /* Animación al bajar */
-const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('ya'); io.unobserve(x.target); } }), { threshold: .2 });
+const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting) { x.target.classList.add('ya'); io.unobserve(x.target); } }), { threshold: .15 });
 document.querySelectorAll('.rev').forEach(el => io.observe(el));
 
 /* Los ojos siguen el cursor */
